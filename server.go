@@ -1,15 +1,19 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+
+	e.DELETE("/emptylist", emptyBookList)
+	e.DELETE("/removebook/:id", removeBook)
+
+	e.GET("/booklist", getBookList)
+	e.GET("/book/:id", getBook)
+
+	e.POST("/addbook", addBook)
+
 	e.Logger.Fatal(e.Start(":1323"))
 }

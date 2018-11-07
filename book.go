@@ -5,10 +5,10 @@ import (
 )
 
 type Book struct {
-	Title       string
 	Author      string
-	Publisher   string
 	PublishDate time.Time
+	Publisher   string
 	Rating      int
 	Status      string
+	Title       string
 }
