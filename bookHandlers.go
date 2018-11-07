@@ -68,15 +68,14 @@ func getBook(context echo.Context) error {
 		return context.String(http.StatusBadRequest, "No book with id "+id)
 	}
 
-	// Want to parse the json better that comes back from redis
 	return context.JSON(http.StatusOK, bookJSON)
 }
 
 func getBookList(context echo.Context) error {
 	client := getRedis()
-	// Not sure why this doesn't work yet
 	keys := client.Scan(0, "*", 100)
 
+	// Want to parse the json better that comes back from redis
 	return context.String(http.StatusOK, keys.String())
 }
 
