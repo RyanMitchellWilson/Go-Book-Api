@@ -37,3 +37,9 @@ Once redis is up and running, run `./runServer.sh` and the api is good to go
 }
 ```
 - Add a book with the following info
+
+## Testing
+
+Make sure you have redis up and running on port 6379 with no password.
+
+Then run `./testBookHandlers.sh`

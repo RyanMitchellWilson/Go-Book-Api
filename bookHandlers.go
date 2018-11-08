@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/google/uuid"
 	"github.com/labstack/echo"
 )
 
@@ -29,7 +29,7 @@ func addBook(context echo.Context) error {
 		publishDate = time.Now()
 	}
 
-	id := uuid.New().String()
+	id := strings.Replace(author, " ", "", -1) + "-" + title
 
 	book := Book{
 		Author:      author,
@@ -48,7 +48,7 @@ func addBook(context echo.Context) error {
 		return context.String(http.StatusBadRequest, "Could not add "+title)
 	}
 
-	returnString := title + " by " + author + " has been added with id " + id
+	returnString := title + " by " + author + " has been added"
 	return context.String(http.StatusOK, returnString)
 }
 
@@ -68,6 +68,7 @@ func getBook(context echo.Context) error {
 		return context.String(http.StatusBadRequest, "No book with id "+id)
 	}
 
+	// Want to parse the json better that comes back from redis
 	return context.JSON(http.StatusOK, bookJSON)
 }
 
@@ -75,7 +76,6 @@ func getBookList(context echo.Context) error {
 	client := getRedis()
 	keys := client.Scan(0, "*", 100)
 
-	// Want to parse the json better that comes back from redis
 	return context.String(http.StatusOK, keys.String())
 }
 
