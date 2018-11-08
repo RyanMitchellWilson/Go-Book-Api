@@ -44,7 +44,6 @@ func addBook(context echo.Context) error {
 
 	err := client.Set(id, bookJSON, 0).Err()
 	if err != nil {
-		fmt.Println(err)
 		return context.String(http.StatusBadRequest, "Could not add "+title)
 	}
 
@@ -60,7 +59,6 @@ func emptyBookList(context echo.Context) error {
 
 func getBook(context echo.Context) error {
 	client := getRedis()
-
 	id := context.Param("id")
 
 	bookJSON, err := client.Get(id).Result()
@@ -98,4 +96,80 @@ func removeBook(context echo.Context) error {
 	}
 
 	return context.String(http.StatusOK, "Successfully removed book")
+}
+
+func setBookRating(context echo.Context) error {
+	client := getRedis()
+	id := context.Param("id")
+	rating, ratingErr := strconv.Atoi(context.FormValue("Rating"))
+
+	if ratingErr != nil {
+		return context.String(http.StatusBadRequest, "No rating provided")
+	}
+
+	bookString, err := client.Get(id).Result()
+	if err != nil {
+		return context.String(http.StatusBadRequest, "No book to update with id "+id)
+	}
+
+	var bookJSON Book
+	json.Unmarshal([]byte(bookString), &bookJSON)
+
+	book := Book{
+		Author:      bookJSON.Author,
+		PublishDate: bookJSON.PublishDate,
+		Publisher:   bookJSON.Publisher,
+		Rating:      rating,
+		Status:      bookJSON.Status,
+		Title:       bookJSON.Title,
+	}
+
+	newBookJSON, _ := json.Marshal(book)
+
+	setErr := client.Set(id, newBookJSON, 0).Err()
+	if setErr != nil {
+		fmt.Println(err)
+		return context.String(http.StatusBadRequest, "Could not update "+bookJSON.Title)
+	}
+
+	returnString := "Successfully set rating for " + bookJSON.Title + " to " + strconv.Itoa(rating)
+	return context.String(http.StatusOK, returnString)
+}
+
+func setBookStatus(context echo.Context) error {
+	client := getRedis()
+	id := context.Param("id")
+	status := context.FormValue("Status")
+
+	if status == "" {
+		return context.String(http.StatusBadRequest, "No status provided")
+	}
+
+	bookString, err := client.Get(id).Result()
+	if err != nil {
+		return context.String(http.StatusBadRequest, "No book to update with id "+id)
+	}
+
+	var bookJSON Book
+	json.Unmarshal([]byte(bookString), &bookJSON)
+
+	book := Book{
+		Author:      bookJSON.Author,
+		PublishDate: bookJSON.PublishDate,
+		Publisher:   bookJSON.Publisher,
+		Rating:      bookJSON.Rating,
+		Status:      status,
+		Title:       bookJSON.Title,
+	}
+
+	newBookJSON, _ := json.Marshal(book)
+
+	setErr := client.Set(id, newBookJSON, 0).Err()
+	if setErr != nil {
+		fmt.Println(err)
+		return context.String(http.StatusBadRequest, "Could not update "+bookJSON.Title)
+	}
+
+	returnString := "Successfully set status for " + bookJSON.Title + " to " + status
+	return context.String(http.StatusOK, returnString)
 }

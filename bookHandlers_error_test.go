@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -12,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAddBook(t *testing.T) {
+func TestAddBookError(t *testing.T) {
 	e := echo.New()
 
 	formValues := make(url.Values)
@@ -33,23 +32,11 @@ func TestAddBook(t *testing.T) {
 	addBookContext := e.NewContext(addBookReq, addBookRec)
 
 	if assert.NoError(t, addBook(addBookContext)) {
-		assert.Equal(t, "Area-X by Jeff VanderMeer has been added", addBookRec.Body.String())
+		assert.Equal(t, "Could not add Area-X", addBookRec.Body.String())
 	}
 }
 
-func TestEmptyList(t *testing.T) {
-	e := echo.New()
-
-	clearDBReq := httptest.NewRequest(http.MethodDelete, "/emptylist", nil)
-	clearDBRec := httptest.NewRecorder()
-	clearDBContext := e.NewContext(clearDBReq, clearDBRec)
-
-	if assert.NoError(t, emptyBookList(clearDBContext)) {
-		assert.Equal(t, "Book List Empty", clearDBRec.Body.String())
-	}
-}
-
-func TestGetBook(t *testing.T) {
+func TestGetBookError(t *testing.T) {
 	e := echo.New()
 
 	getBookReq := httptest.NewRequest(http.MethodGet, "/getbook/:id", nil)
@@ -59,14 +46,11 @@ func TestGetBook(t *testing.T) {
 	getBookContext.SetParamValues("JeffVanderMeer-Area-X")
 
 	if assert.NoError(t, getBook(getBookContext)) {
-		var book string
-		json.Unmarshal([]byte(getBookRec.Body.String()), &book)
-		expected := "{\"Author\":\"Jeff VanderMeer\",\"PublishDate\":\"2014-11-18T00:00:00Z\",\"Publisher\":\"FSG Originals\",\"Rating\":3,\"Status\":\"Checked-In\",\"Title\":\"Area-X\"}"
-		assert.Equal(t, expected, book)
+		assert.Equal(t, "No book with id JeffVanderMeer-Area-X", getBookRec.Body.String())
 	}
 }
 
-func TestRemoveBook(t *testing.T) {
+func TestRemoveBookError(t *testing.T) {
 	e := echo.New()
 
 	removeBookReq := httptest.NewRequest(http.MethodDelete, "/removebook/:id", nil)
@@ -76,11 +60,11 @@ func TestRemoveBook(t *testing.T) {
 	removeBookContext.SetParamValues("JeffVanderMeer-Area-X")
 
 	if assert.NoError(t, removeBook(removeBookContext)) {
-		assert.Equal(t, "Successfully removed book", removeBookRec.Body.String())
+		assert.Equal(t, "Could not remove book with id JeffVanderMeer-Area-X", removeBookRec.Body.String())
 	}
 }
 
-func TestSetBookRating(t *testing.T) {
+func TestSetBookRatingError(t *testing.T) {
 	e := echo.New()
 
 	formValues := make(url.Values)
@@ -97,11 +81,11 @@ func TestSetBookRating(t *testing.T) {
 	setRatingContext.SetParamValues("JeffVanderMeer-Area-X")
 
 	if assert.NoError(t, setBookRating(setRatingContext)) {
-		assert.Equal(t, "Successfully set rating for Area-X to 2", setRatingRec.Body.String())
+		assert.Equal(t, "No book to update with id JeffVanderMeer-Area-X", setRatingRec.Body.String())
 	}
 }
 
-func TestSetBookStatus(t *testing.T) {
+func TestSetBookStatusError(t *testing.T) {
 	e := echo.New()
 
 	formValues := make(url.Values)
@@ -118,6 +102,6 @@ func TestSetBookStatus(t *testing.T) {
 	setRatingContext.SetParamValues("JeffVanderMeer-Area-X")
 
 	if assert.NoError(t, setBookStatus(setRatingContext)) {
-		assert.Equal(t, "Successfully set status for Area-X to Checked-Out", setRatingRec.Body.String())
+		assert.Equal(t, "No book to update with id JeffVanderMeer-Area-X", setRatingRec.Body.String())
 	}
 }

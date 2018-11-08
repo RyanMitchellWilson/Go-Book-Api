@@ -38,7 +38,32 @@ Once redis is up and running, run `./runServer.sh` and the api is good to go
 ```
 - Add a book with the following info
 
+`POST http://localhosht:1323/setrating/:id`
+```
+{
+  Rating: "2"
+}
+```
+- Sets the rating of a book by given id
+
+`POST http://localhosht:1323/setstatus/:id`
+```
+{
+  Status: "Checked-Out"
+}
+```
+- Sets the status of a book by given id
+
 ## Testing
+### Manual
+
+To easily manually test the api there is an included Postman Collection. Get the api up and running and load the Postman Collection into Postman and you can easliy use the endpoint.
+
+### Errors
+
+Make sure redis is not running, then run `./testBookHandlersErrors.sh`
+
+### Successful
 
 Make sure you have redis up and running on port 6379 with no password.
 

@@ -1,0 +1,213 @@
+{
+	"info": {
+		"_postman_id": "eefbed39-ff6a-4316-ae65-01fc19bf0f49",
+		"name": "Go-Book-Api-Postman-Collection",
+		"description": "A collection of endpoints set up for quick testing with the Go-Book-Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:1323/booklist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1323/booklist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"booklist"
+					]
+				},
+				"description": "Get list of book ids"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/book/JeffVanderMeer-Area-X",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1323/book/JeffVanderMeer-Area-X",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"book",
+						"JeffVanderMeer-Area-X"
+					]
+				},
+				"description": "Get book by id"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/addbook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Author",
+							"value": "Jeff VanderMeer",
+							"type": "text"
+						},
+						{
+							"key": "PublishDate",
+							"value": "2014-11-18",
+							"type": "text"
+						},
+						{
+							"key": "Publisher",
+							"value": "FSG Originals",
+							"type": "text"
+						},
+						{
+							"key": "Rating",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "Status",
+							"value": "Checked-In",
+							"type": "text"
+						},
+						{
+							"key": "Title",
+							"value": "Area-X",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:1323/addbook",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"addbook"
+					]
+				},
+				"description": "Add a book"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/setrating/JeffVanderMeer-Area-X",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Rating",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:1323/setrating/JeffVanderMeer-Area-X",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"setrating",
+						"JeffVanderMeer-Area-X"
+					]
+				},
+				"description": "Set the rating of a book"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/setstatus/JeffVanderMeer-Area-X",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Status",
+							"value": "Checked-Out",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:1323/setstatus/JeffVanderMeer-Area-X",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"setstatus",
+						"JeffVanderMeer-Area-X"
+					]
+				},
+				"description": "Set the status of a book by id"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/emptylist",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1323/emptylist",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"emptylist"
+					]
+				},
+				"description": "Clear the entire book list"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:1323/removebook/JeffVanderMeer-Area-X",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:1323/removebook/JeffVanderMeer-Area-X",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1323",
+					"path": [
+						"removebook",
+						"JeffVanderMeer-Area-X"
+					]
+				},
+				"description": "Remove a book by id"
+			},
+			"response": []
+		}
+	]
+}
