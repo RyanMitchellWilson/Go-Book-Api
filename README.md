@@ -9,7 +9,9 @@ Run this command to get redis up and running in docker:
 docker run -d -p 6379:6379 redis
 ```
 
-Once redis is up and running, run `./runServer.sh` and the api is good to go
+Once redis is up and running, run `./runServer.sh` and the api is good to go.
+
+There is an included Postman Collection to easily use the api
 
 ## Routes:
 
@@ -55,9 +57,8 @@ Once redis is up and running, run `./runServer.sh` and the api is good to go
 - Sets the status of a book by given id
 
 ## Testing
-### Manual
 
-To easily manually test the api there is an included Postman Collection. Get the api up and running and load the Postman Collection into Postman and you can easliy use the endpoint.
+You do not need to have `./runServer.sh` going to run these tests.
 
 ### Errors
 
